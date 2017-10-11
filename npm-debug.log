@@ -1,35 +1,35 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/home/ec2-user/.nvm/versions/node/v6.0.0/bin/node',
-1 verbose cli   '/home/ec2-user/.nvm/versions/node/v6.0.0/bin/npm',
+1 verbose cli [ '/Users/Sufyan/.nvm/versions/node/v6.2.2/bin/node',
+1 verbose cli   '/Users/Sufyan/.nvm/versions/node/v6.2.2/bin/npm',
 1 verbose cli   'start' ]
-2 info using npm@3.8.6
-3 info using node@v6.0.0
+2 info using npm@3.9.5
+3 info using node@v6.2.2
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle vue-finder-rest-api@1.0.0~prestart: vue-finder-rest-api@1.0.0
 6 silly lifecycle vue-finder-rest-api@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle vue-finder-rest-api@1.0.0~start: vue-finder-rest-api@1.0.0
 8 verbose lifecycle vue-finder-rest-api@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle vue-finder-rest-api@1.0.0~start: PATH: /home/ec2-user/.nvm/versions/node/v6.0.0/lib/node_modules/npm/bin/node-gyp-bin:/home/ec2-user/VUEFinder/node_modules/.bin:/home/ec2-user/.nvm/versions/node/v6.0.0/bin:/home/ec2-user/.nvm/versions/node/v6.0.0/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin
-10 verbose lifecycle vue-finder-rest-api@1.0.0~start: CWD: /home/ec2-user/VUEFinder
+9 verbose lifecycle vue-finder-rest-api@1.0.0~start: PATH: /Users/Sufyan/.nvm/versions/node/v6.2.2/lib/node_modules/npm/bin/node-gyp-bin:/Users/Sufyan/Sites/vue-finder-rest-api/node_modules/.bin:/Users/Sufyan/.nvm/versions/node/v6.2.2/bin:/Users/Sufyan/google-cloud-sdk/bin:/Users/Sufyan/anaconda/bin:/Users/Sufyan/anaconda2/bin:/Users/Sufyan/.nvm/versions/node/v6.2.2/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/opt/ImageMagick/bin:/Library/TeX/texbin:/opt/node/bin:/opt/node/bin:/opt/node/bin:/Users/Sufyan/.rvm/bin
+10 verbose lifecycle vue-finder-rest-api@1.0.0~start: CWD: /Users/Sufyan/Sites/vue-finder-rest-api
 11 silly lifecycle vue-finder-rest-api@1.0.0~start: Args: [ '-c', 'sudo "$(which node)" index.js' ]
 12 silly lifecycle vue-finder-rest-api@1.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle vue-finder-rest-api@1.0.0~start: Failed to exec start script
 14 verbose stack Error: vue-finder-rest-api@1.0.0 start: `sudo "$(which node)" index.js`
 14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/home/ec2-user/.nvm/versions/node/v6.0.0/lib/node_modules/npm/lib/utils/lifecycle.js:239:16)
+14 verbose stack     at EventEmitter.<anonymous> (/Users/Sufyan/.nvm/versions/node/v6.2.2/lib/node_modules/npm/lib/utils/lifecycle.js:245:16)
 14 verbose stack     at emitTwo (events.js:106:13)
 14 verbose stack     at EventEmitter.emit (events.js:191:7)
-14 verbose stack     at ChildProcess.<anonymous> (/home/ec2-user/.nvm/versions/node/v6.0.0/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at ChildProcess.<anonymous> (/Users/Sufyan/.nvm/versions/node/v6.2.2/lib/node_modules/npm/lib/utils/spawn.js:24:14)
 14 verbose stack     at emitTwo (events.js:106:13)
 14 verbose stack     at ChildProcess.emit (events.js:191:7)
-14 verbose stack     at maybeClose (internal/child_process.js:850:16)
+14 verbose stack     at maybeClose (internal/child_process.js:852:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
 15 verbose pkgid vue-finder-rest-api@1.0.0
-16 verbose cwd /home/ec2-user/VUEFinder
-17 error Linux 4.9.51-10.52.amzn1.x86_64
-18 error argv "/home/ec2-user/.nvm/versions/node/v6.0.0/bin/node" "/home/ec2-user/.nvm/versions/node/v6.0.0/bin/npm" "start"
-19 error node v6.0.0
-20 error npm  v3.8.6
+16 verbose cwd /Users/Sufyan/Sites/vue-finder-rest-api
+17 error Darwin 16.7.0
+18 error argv "/Users/Sufyan/.nvm/versions/node/v6.2.2/bin/node" "/Users/Sufyan/.nvm/versions/node/v6.2.2/bin/npm" "start"
+19 error node v6.2.2
+20 error npm  v3.9.5
 21 error code ELIFECYCLE
 22 error vue-finder-rest-api@1.0.0 start: `sudo "$(which node)" index.js`
 22 error Exit status 1

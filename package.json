@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sudo \"$(which node)\" index.js"
+    "test":  "echo \"Error: no test specified\" && exit 1",
+    "start": "bash start.sh",
+    "stop":  "bash stop.sh"
   },
   "keywords": [],
   "author": "",

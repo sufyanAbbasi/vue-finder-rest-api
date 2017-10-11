@@ -41,7 +41,7 @@ server.listen(config.port, () => {
             '%s v%s ready to accept connections at url %s on port %s in %s environment.',
             server.name,
             config.version,
-	    server.url,
+	        server.url,
             config.port,
             config.env
         )
