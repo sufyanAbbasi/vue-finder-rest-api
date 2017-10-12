@@ -9,16 +9,14 @@ const templatePoint = {
 }
 
 let validateData = function(reqBody, template){
-    if (Object.keys(reqBody).length == Object.keys(template).length){
-        Object.keys(template).forEach(function(key,index) {
-            if(!(key in reqBody && typeof reqBody[key] == typeof templatePoint[key])){
-                return false
-            }
+    let valid = Object.keys(reqBody).length == Object.keys(template).length;
+    if (valid){
+        Object.keys(template).every((key,index) => {
+            valid = valid && key in reqBody && typeof reqBody[key] == typeof template[key]
+            return valid
         });
-    }else{
-        return false
     }
-    return true
+    return valid
 }
 
 module.exports = function(ctx) {
