@@ -8,7 +8,7 @@ const templatePoint = {
     longitude   : 0.0
 }
 
-validateData = function(reqBody, template){
+let validateData = function(reqBody, template){
     if (Object.keys(reqBody).length == Object.keys(template).length){
         Object.keys(template).forEach(function(key,index) {
             if(!(key in reqBody && typeof reqBody[key] == typeof templatePoint[key])){
@@ -29,7 +29,7 @@ module.exports = function(ctx) {
 
     // assign collection to variable for further use
     const collection = db.collection('points')
-    
+
     /**
      * Create
      */
