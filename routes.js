@@ -1,5 +1,26 @@
 'use strict'
 
+const templatePoint = {
+    category    : "",
+    email       : "",
+    description : "",
+    latitude    : 0.0,
+    longitude   : 0.0
+}
+
+validateData = function(reqBody, template){
+    if (Object.keys(reqBody).length == Object.keys(template).length){
+        Object.keys(template).forEach(function(key,index) {
+            if(!(key in reqBody && typeof reqBody[key] == typeof templatePoint[key])){
+                return false
+            }
+        });
+    }else{
+        return false
+    }
+    return true
+}
+
 module.exports = function(ctx) {
 
     // extract context from passed in object
@@ -7,32 +28,37 @@ module.exports = function(ctx) {
           server = ctx.server
 
     // assign collection to variable for further use
-    const collection = db.collection('map')
-
+    const collection = db.collection('points')
+    
     /**
      * Create
      */
-    server.post('/map', (req, res, next) => {
+    server.post('/points', (req, res, next) => {
+        if(validateData(req.body, templatePoint)){
+            // extract data from body and add timestamps
+            const data = Object.assign({}, req.body, {
+                created: new Date(),
+                updated: new Date(),
+                verified: false
+            })
 
-        // extract data from body and add timestamps
-        const data = Object.assign({}, req.body, {
-            created: new Date(),
-            updated: new Date()
-        })
+            // insert one object into points collection
+            collection.insertOne(data)
+                .then(doc => res.send(200, doc.ops[0]))
+                .catch(err => res.send(500, err))
 
-        // insert one object into map collection
-        collection.insertOne(data)
-            .then(doc => res.send(200, doc.ops[0]))
-            .catch(err => res.send(500, err))
-
-        next()
-
+            next()
+        }else{
+            res.send(500, "Poorly formatted JSON, must have " 
+                + Object.keys(templatePoint).join(", ") 
+                + "parameters with appropriate types.")
+        }
     })
 
     /**
      * Read
      */
-    server.get('/map', (req, res, next) => {
+    server.get('/points', (req, res, next) => {
 
         let limit = parseInt(req.query.limit, 10) || 10, // default limit to 10 docs
             skip  = parseInt(req.query.skip, 10) || 0, // default skip to 0 docs
@@ -42,7 +68,7 @@ module.exports = function(ctx) {
         delete query.skip
         delete query.limit
 
-        // find map and convert to array (with optional query, skip and limit)
+        // find points and convert to array (with optional query, skip and limit)
         collection.find(query).skip(skip).limit(limit).toArray()
             .then(docs => res.send(200, docs))
             .catch(err => res.send(500, err))
@@ -54,7 +80,7 @@ module.exports = function(ctx) {
     /**
      * Update
      */
-    server.put('/map/:id', (req, res, next) => {
+    server.put('/points/:id', (req, res, next) => {
 
         // extract data from body and add timestamps
         const data = Object.assign({}, req.body, {
@@ -81,7 +107,7 @@ module.exports = function(ctx) {
     /**
      * Delete
      */
-    server.del('/map/:id', (req, res, next) => {
+    server.del('/points/:id', (req, res, next) => {
 
         // remove one document based on passed in id (via route)
         collection.findOneAndDelete({ _id: req.params.id })

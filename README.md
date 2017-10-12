@@ -17,7 +17,7 @@ specified by the user.
 A POST request to this endpoint creates and stores a map point with the given
 values in the POST request. These values are:
 
-- name (String corresponding to the name of the creator of the point)
+- email (String corresponding to the email of the creator of the point)
 - description (String containing description of point)
 - latitude (Float corresponding to the point's latitude)
 - longitude (Float corresponding to the point's longitude)
