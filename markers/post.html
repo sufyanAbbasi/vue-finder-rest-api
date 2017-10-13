@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+    <script type="text/javascript">
+        function load(url) {
+            return new Promise(function(resolve, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url);
+                xhr.responseType = "json";
+                xhr.onload = function() {
+                  if(xhr.status == 200){
+                      resolve(this.response);
+                  }else{
+                      reject(Error(xhr.statusText));
+                  }
+                };
+                // Handle network errors
+                xhr.onerror = function() {
+                  reject(Error("Network Error"));
+                };
+
+                xhr.send();
+            }); 
+          }
+          function post(url, json) {
+            return new Promise(function(resolve, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+                xhr.onload = function () {
+                    var data = JSON.parse(xhr.responseText);
+                    if (xhr.status == "200") {
+                        resolve(data);
+                    } else {
+                        reject(data);
+                    }
+                }
+                xhr.send(json);
+            }); 
+          }
+         load("./blue_lights.json").then(function(response){
+            var blueLights = response;
+            for (var i = blueLights.length - 1; i >= 0; i--) {
+                var blueLight = blueLights[i]
+                blueLight.category = "BLUE_LIGHT"
+                blueLight.email = "suabbasi@vassar.edu"
+                blueLight.description = "emergency blue light"
+                post("http://ec2-54-146-151-29.compute-1.amazonaws.com/points", JSON.stringify(blueLight)).then(function(response){
+                    console.log(response);
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }
+         });
+    </script>
+    </body>
+</html>

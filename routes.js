@@ -39,7 +39,7 @@ module.exports = function(ctx) {
      */
 
     server.get('/', (req, res, next) => {
-        var body = '<html><body><h1>This is the VUEFinder REST server.</h1><a href="https://github.com/sufyanAbbasi/vue-finder-rest-api" target="_blank">Github</a></body></html>';
+        var body = '<html><body><h3>This is the VUEFinder REST server.</h3><a href="https://github.com/sufyanAbbasi/vue-finder-rest-api" target="_blank">Github</a></body></html>';
         res.writeHead(200, {
           'Content-Length': Buffer.byteLength(body),
           'Content-Type': 'text/html'
