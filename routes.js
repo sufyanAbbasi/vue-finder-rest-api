@@ -37,6 +37,7 @@ module.exports = function(ctx) {
     /**
      * Read
      */
+    // returns all the points 
     server.get('/points', (req, res, next) => {
 
         let limit = parseInt(req.query.limit, 10) || 10, // default limit to 10 docs
@@ -54,6 +55,14 @@ module.exports = function(ctx) {
 
         next()
 
+    })
+
+    // returns a list of unique categories
+    server.get('/points/categories', (req, res, next) => {
+        // find points and convert to array (with optional query, skip and limit)
+        collection.distinct("category")
+            .then(docs => res.send(200, docs))
+            .catch(err => res.send(500, err))
     })
 
     /**
