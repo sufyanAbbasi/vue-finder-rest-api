@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test":  "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "bash start.sh",
-    "stop":  "bash stop.sh"
+    "stop": "bash stop.sh"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "mongodb": "^2.2.31",
-    "restify": "^6.0.1"
+    "restify": "^6.0.1",
+    "validator": "^9.0.0"
   }
 }

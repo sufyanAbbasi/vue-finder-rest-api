@@ -22,3 +22,7 @@ values in the POST request. These values are:
 - latitude (Float corresponding to the point's latitude)
 - longitude (Float corresponding to the point's longitude)
 - category (String containing the category this point belongs to)
+
+Optional Parameters:
+
+- img (String corresponding to a url for an image)

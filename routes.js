@@ -1,18 +1,40 @@
 'use strict'
 
-const templatePoint = {
-    "category"    : "string",
-    "email"       : "string",
-    "description" : "string",
-    "latitude"    : 0.0,
-    "longitude"   : 0.0
+const validator = require("validator")
+
+
+const pointTemplate = {
+    required : {
+        "category"    : {validate: (val) => typeof val === 'string'},
+        "email"       : {validate: (val) => typeof val === 'string' && validator.isEmail(val)},
+        "description" : {validate: (val) => typeof val === 'string'},
+        "latitude"    : {validate: (val) => typeof val === 'number'},
+        "longitude"   : {validate: (val) => typeof val === 'number'}
+    },
+    optional : {
+        "img" : {validate: (val) => typeof val === 'string' && validotor.isUrl(val)}
+    }
 }
 
-let validateData = function(reqBody, template){
-    let valid = Object.keys(reqBody).length == Object.keys(template).length;
+let validateData = function(body, template){
+    let required = template.required
+    let optional = template.optional
+    // check that the length of the body is within the required and optional lengths
+    let valid = Object.keys(body).length >= Object.keys(required).length && 
+                Object.keys(body).length <= Object.keys(required).length + Object.keys(optional).length;
     if (valid){
-        Object.keys(template).every((key,index) => {
-            valid = valid && key in reqBody && typeof reqBody[key] == typeof template[key]
+        // check that there are no extra body fields that shouldn't be there and they're valid
+        Object.keys(body).every((key,index) => {
+            let val = key[body]
+            valid = valid && ((key in required && required[key].validate(val)) || (key in optional && optional[key].validate(val)))
+            return valid
+        });
+    }
+
+    if (valid){
+        // check that all of the required fields are there
+        Object.keys(required).every((key,index) => {
+            valid = valid && key in body
             return valid
         });
     }
@@ -32,7 +54,7 @@ module.exports = function(ctx) {
      * Create
      */
     server.post('/points', (req, res, next) => {
-        if(validateData(req.body, templatePoint)){
+        if(validateData(req.body, pointTemplate)){
             // extract data from body and add timestamps
             const data = Object.assign({}, req.body, {
                 created: new Date(),
@@ -48,7 +70,7 @@ module.exports = function(ctx) {
             next()
         }else{
             res.send(400, "Poorly formatted JSON, must have " 
-                + Object.keys(templatePoint).join(", ") 
+                + Object.keys(pointTemplate).join(", ") 
                 + " parameters with appropriate types.")
         }
     })
