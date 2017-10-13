@@ -12,7 +12,7 @@ const pointTemplate = {
         "longitude"   : {validate: (val) => typeof val === 'number'}
     },
     optional : {
-        "img" : {validate: (val) => typeof val === 'string' && validotor.isUrl(val)}
+        "img" : {validate: (val) => typeof val === 'string' && validator.isURL(val)}
     }
 }
 
@@ -25,7 +25,7 @@ let validateData = function(body, template){
     if (valid){
         // check that there are no extra body fields that shouldn't be there and they're valid
         Object.keys(body).every((key,index) => {
-            let val = key[body]
+            let val = body[key]
             valid = valid && ((key in required && required[key].validate(val)) || (key in optional && optional[key].validate(val)))
             return valid
         });
