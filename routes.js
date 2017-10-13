@@ -37,6 +37,10 @@ module.exports = function(ctx) {
     /**
      * Read
      */
+
+    server.get('/', (req, res, next) => {
+        res.send(200, "This is the VUEFinder REST server.")
+    })
     // returns all the points 
     server.get('/points', (req, res, next) => {
 
@@ -99,7 +103,7 @@ module.exports = function(ctx) {
 
         // remove one document based on passed in id (via route)
         collection.findOneAndDelete({ _id: req.params.id })
-            .then(doc => res.send(204))
+            .then(doc => res.send(204, "Deleted id:" + req.params.id))
             .catch(err => res.send(500, err))
 
         next()

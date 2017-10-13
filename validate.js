@@ -3,30 +3,30 @@ const validator = require("validator")
 const pointTemplate = {
     required : {
         "category"    : {
-                            validate: (val) => typeof val === 'string', 
-                            error: "category is not a string"
+                            validate: (val) => typeof val === 'string' && validator.isUppercase(val), 
+                            error: "- category is not an uppercase string"
                         },
         "email"       : {
                             validate: (val) => typeof val === 'string' && validator.isEmail(val), 
-                            error: "email is not a proper email"
+                            error: "- email is not a proper email"
                         },
         "description" : {
                             validate: (val) => typeof val === 'string',
-                            error: "description is not a string"
+                            error: "- description is not a string"
                         },
         "latitude"    : {
                             validate: (val) => typeof val === 'number',
-                            error: "latitude is not a number"
+                            error: "- latitude is not a number"
                         },
         "longitude"   : {
                             validate: (val) => typeof val === 'number',
-                            error: "longitude is not a number"
+                            error: "- longitude is not a number"
                         }
     },
     optional : {
         "img" : {
             validate: (val) => typeof val === 'string' && validator.isURL(val),
-            error: "img is not a proper url"
+            error: "- img is not a proper url"
         }
     }
 }
@@ -77,7 +77,7 @@ let whyInvalidData = function(body, template){
                     error.push(optional[key].error)
                 }
             }else{
-                error.push(key + " does not belong.")
+                error.push("- " + key + " does not belong.")
             }
         });
         // check that all of the required fields are there
@@ -86,12 +86,12 @@ let whyInvalidData = function(body, template){
             return valid
         });
         if(!valid){
-            error.push("Not all required parameters exist.")
+            error.push("- not all required parameters exist.")
         }
     }else{
         error.push(Object.keys(body).length < Object.keys(required).length ? 
-            "Not enough parameters.":
-            "Too many parameters.")
+            "- not enough parameters.":
+            "- too many parameters.")
     }
     return error.join("\n")
 }
