@@ -1,45 +1,6 @@
 'use strict'
 
-const validator = require("validator")
-
-
-const pointTemplate = {
-    required : {
-        "category"    : {validate: (val) => typeof val === 'string'},
-        "email"       : {validate: (val) => typeof val === 'string' && validator.isEmail(val)},
-        "description" : {validate: (val) => typeof val === 'string'},
-        "latitude"    : {validate: (val) => typeof val === 'number'},
-        "longitude"   : {validate: (val) => typeof val === 'number'}
-    },
-    optional : {
-        "img" : {validate: (val) => typeof val === 'string' && validator.isURL(val)}
-    }
-}
-
-let validateData = function(body, template){
-    let required = template.required
-    let optional = template.optional
-    // check that the length of the body is within the required and optional lengths
-    let valid = Object.keys(body).length >= Object.keys(required).length && 
-                Object.keys(body).length <= Object.keys(required).length + Object.keys(optional).length;
-    if (valid){
-        // check that there are no extra body fields that shouldn't be there and they're valid
-        Object.keys(body).every((key,index) => {
-            let val = body[key]
-            valid = valid && ((key in required && required[key].validate(val)) || (key in optional && optional[key].validate(val)))
-            return valid
-        });
-    }
-
-    if (valid){
-        // check that all of the required fields are there
-        Object.keys(required).every((key,index) => {
-            valid = valid && key in body
-            return valid
-        });
-    }
-    return valid
-}
+const validation = require("./validate")
 
 module.exports = function(ctx) {
 
@@ -54,7 +15,7 @@ module.exports = function(ctx) {
      * Create
      */
     server.post('/points', (req, res, next) => {
-        if(validateData(req.body, pointTemplate)){
+        if(validation.validatePoint(req.body)){
             // extract data from body and add timestamps
             const data = Object.assign({}, req.body, {
                 created: new Date(),
@@ -69,9 +30,7 @@ module.exports = function(ctx) {
 
             next()
         }else{
-            res.send(400, "Poorly formatted JSON, must have " 
-                + Object.keys(pointTemplate).join(", ") 
-                + " parameters with appropriate types.")
+            res.send(400, validation.whyInvalidPoint(req.body))
         }
     })
 
