@@ -49,9 +49,9 @@ module.exports = function(ctx) {
     })
     // returns all the points 
     server.get('/points', (req, res, next) => {
-
-        // find points and convert to array 
-        collection.find(query).toArray()
+        
+        // find points and convert to array (with optional query, skip and limit)
+        collection.find(req.query || {}).toArray()
             .then(docs => res.send(200, docs))
             .catch(err => res.send(500, err))
 
