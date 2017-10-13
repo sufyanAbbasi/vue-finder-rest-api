@@ -23,6 +23,13 @@ server.use(restifyPlugins.jsonBodyParser({ mapParams: true }))
 server.use(restifyPlugins.acceptParser(server.acceptable))
 server.use(restifyPlugins.queryParser({ mapParams: true }))
 server.use(restifyPlugins.fullResponse())
+server.use(
+  function crossOrigin(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    return next();
+  }
+);
 
 /**
  * Lift Server, Connect to DB & Require Route File
