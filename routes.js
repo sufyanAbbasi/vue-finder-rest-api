@@ -1,11 +1,11 @@
 'use strict'
 
 const templatePoint = {
-    category    : "",
-    email       : "",
-    description : "",
-    latitude    : 0.0,
-    longitude   : 0.0
+    "category"    : "string",
+    "email"       : "string",
+    "description" : "string",
+    "latitude"    : 0.0,
+    "longitude"   : 0.0
 }
 
 let validateData = function(reqBody, template){
@@ -47,9 +47,9 @@ module.exports = function(ctx) {
 
             next()
         }else{
-            res.send(500, "Poorly formatted JSON, must have " 
+            res.send(400, "Poorly formatted JSON, must have " 
                 + Object.keys(templatePoint).join(", ") 
-                + "parameters with appropriate types.")
+                + " parameters with appropriate types.")
         }
     })
 
