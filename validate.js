@@ -68,10 +68,14 @@ let whyInvalidData = function(body, template){
         // check that there are no extra body fields that shouldn't be there and they're valid
         Object.keys(body).forEach((key,index) => {
             let val = body[key]
-            if(key in required && !required[key].validate(val)){
-                error.push(required[key].error)
-            }else if(key in optional && !optional[key].validate(val)){
-                error.push(optional[key].error)
+            if(key in required){
+                if(!required[key].validate(val)){
+                    error.push(required[key].error)
+                }
+            }else if(key in optional){
+                if(!optional[key].validate(val)){
+                    error.push(optional[key].error)
+                }
             }else{
                 error.push(key + " does not belong.")
             }
