@@ -39,7 +39,13 @@ module.exports = function(ctx) {
      */
 
     server.get('/', (req, res, next) => {
-        res.send(200, "This is the VUEFinder REST server.")
+        var body = '<html><body><h1>This is the VUEFinder REST server.</h1><a href="https://github.com/sufyanAbbasi/vue-finder-rest-api" target="_blank">Github</a></body></html>';
+        res.writeHead(200, {
+          'Content-Length': Buffer.byteLength(body),
+          'Content-Type': 'text/html'
+        });
+        res.write(body);
+        res.end();
     })
     // returns all the points 
     server.get('/points', (req, res, next) => {
@@ -103,7 +109,7 @@ module.exports = function(ctx) {
 
         // remove one document based on passed in id (via route)
         collection.findOneAndDelete({ _id: req.params.id })
-            .then(doc => res.send(204, "Deleted id:" + req.params.id))
+            .then(doc => res.send(204))
             .catch(err => res.send(500, err))
 
         next()
