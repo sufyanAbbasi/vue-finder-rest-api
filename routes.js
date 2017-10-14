@@ -1,6 +1,7 @@
 'use strict'
 
 const validation = require("./validate")
+const user = require("./user")
 
 module.exports = function(ctx) {
 
@@ -23,12 +24,28 @@ module.exports = function(ctx) {
                 verified: false
             })
 
-            // insert one object into points collection
-            collection.insertOne(data)
-                .then(doc => res.send(200, doc.ops[0]))
-                .catch(err => res.send(500, err))
+            if(req.params.key){
+                user.checkAPIKey(req.body.email, req.params.key).then(function(verified){
+                    if (verified) {
+                        data.verified = true;
+                        // insert one object into points collection
+                        collection.insertOne(data)
+                            .then(doc => res.send(200, doc.ops[0]))
+                            .catch(err => res.send(500, err))
+                        next()
+                    }else{
+                        res.send(403, "API key does not match email. Entry was not added.")
+                        next()
+                    }
+                })
+            }else{
+                // insert one object into points collection
+                collection.insertOne(data)
+                    .then(doc => res.send(200, doc.ops[0]))
+                    .catch(err => res.send(500, err))
 
-            next()
+                next()
+            }
         }else{
             res.send(400, validation.whyInvalidPoint(req.body))
         }
@@ -46,10 +63,12 @@ module.exports = function(ctx) {
         });
         res.write(body);
         res.end();
+        next()
     })
+
     // returns all the points 
     server.get('/points', (req, res, next) => {
-        
+
         // find points and convert to array (with optional query, skip and limit)
         collection.find(req.query || {}).toArray()
             .then(docs => res.send(200, docs))
@@ -65,6 +84,8 @@ module.exports = function(ctx) {
         collection.distinct("category")
             .then(docs => res.send(200, docs))
             .catch(err => res.send(500, err))
+
+        next()
     })
 
     /**
