@@ -129,7 +129,7 @@ module.exports = function(ctx) {
     /**
      * Verified Point
      */
-    server.put('/points/verified/:id', (req, res, next) => {
+    server.put('/points/verified/:id/:email/:key', (req, res, next) => {
         if(req.params.email && req.params.key){
             user.checkAPIKey(req.params.email, req.params.key).then((verified) => {
                 if (verified) {
@@ -167,7 +167,7 @@ module.exports = function(ctx) {
     /**
      * Delete
      */
-    server.del('/points/:id', (req, res, next) => {
+    server.del('/points/:id/:email/:key', (req, res, next) => {
         if(req.params.email && req.params.key){
             user.checkAPIKey(req.params.email, req.params.key).then((verified) => {
                 if (verified) {
