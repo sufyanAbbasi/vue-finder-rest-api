@@ -16,9 +16,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "dotenv": "^4.0.0",
+    "fs": "0.0.1-security",
     "mongodb": "^2.2.31",
     "passport-localapikey": "0.0.3",
     "passport-restify": "^1.0.1",
+    "random-words": "0.0.1",
     "restify": "^6.0.1",
     "validator": "^9.0.0"
   }

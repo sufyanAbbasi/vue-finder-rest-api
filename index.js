@@ -3,6 +3,7 @@
 /**
  * Module Dependencies
  */
+require('dotenv').config()
 const config  = require('./config'),
       restify = require('restify'),
       restifyPlugins = require('restify').plugins,
