@@ -1,3 +1,5 @@
+.DS_STORE
 secret*
 *.log
 .env
+node_modules
