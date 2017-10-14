@@ -25,9 +25,10 @@ module.exports = function(ctx) {
             })
 
             if(req.params.key){
-                user.checkAPIKey(req.body.email, req.params.key).then(function(verified){
+                user.checkAPIKey(req.body.email, req.params.key).then((verified) => {
                     if (verified) {
                         data.verified = true;
+                        data.verified_by = req.body.email;
                         // insert one object into points collection
                         collection.insertOne(data)
                             .then(doc => res.send(200, doc.ops[0]))
@@ -91,41 +92,100 @@ module.exports = function(ctx) {
     /**
      * Update
      */
-    server.put('/points/:id', (req, res, next) => {
+    // server.put('/points/:id', (req, res, next) => {
+    //     if(req.params.email && req.params.key){
+    //         user.checkAPIKey(req.params.email, req.params.key).then((verified) => {
+    //             if (verified) {
+    //                 // extract data from body and add timestamps
+    //                 const data = Object.assign({}, req.body, {
+    //                     updated: new Date()
+    //                 })
 
-        // extract data from body and add timestamps
-        const data = Object.assign({}, req.body, {
-            updated: new Date()
-        })
+    //                 // build out findOneAndUpdate variables to keep things organized
+    //                 let query = { _id: req.params.id },
+    //                     body  = { $set: data },
+    //                     opts  = {
+    //                         returnNewDocument: false,
+    //                         upsert: false
+    //                     }
 
-        // build out findOneAndUpdate variables to keep things organized
-        let query = { _id: req.params.id },
-            body  = { $set: data },
-            opts  = {
-                returnOriginal: false,
-                upsert: true
-            }
+    //                 // find and update document based on passed in id (via route)
+    //                 collection.findOneAndUpdate(query, body, opts)
+    //                     .then(doc => res.send(204))
+    //                     .catch(err => res.send(500, err))
 
-        // find and update document based on passed in id (via route)
-        collection.findOneAndUpdate(query, body, opts)
-            .then(doc => res.send(204))
-            .catch(err => res.send(500, err))
+    //                 next()
+    //             }else{
+    //                 res.send(403, "API key does not match email.")
+    //                 next()
+    //             }
+    //         })
+    //     }else{
+    //         res.send(403, "No API key or email provided to verify admin status.")
+    //         next()
+    //     }
+    // })
 
-        next()
+    /**
+     * Verified Point
+     */
+    server.put('/points/verified/:id', (req, res, next) => {
+        if(req.params.email && req.params.key){
+            user.checkAPIKey(req.params.email, req.params.key).then((verified) => {
+                if (verified) {
+                    const data = {
+                        updated: new Date(),
+                        verified: true,
+                        verified_by: req.params.email,
+                    }
 
+                    // build out findOneAndUpdate variables to keep things organized
+                    let query = { _id: req.params.id },
+                        body  = { $set: data },
+                        opts  = {
+                            returnNewDocument: false,
+                            upsert: false
+                        }
+
+                    // find and update document based on passed in id (via route)
+                    collection.findOneAndUpdate(query, body, opts)
+                        .then(doc => res.send(204))
+                        .catch(err => res.send(500, err))
+
+                    next()
+                }else{
+                    res.send(403, "API key does not match email.")
+                    next()
+                }
+            })
+        }else{
+            res.send(403, "No API key or email provided to verify admin status.")
+            next()
+        }
     })
 
     /**
      * Delete
      */
     server.del('/points/:id', (req, res, next) => {
+        if(req.params.email && req.params.key){
+            user.checkAPIKey(req.params.email, req.params.key).then((verified) => {
+                if (verified) {
+                    // remove one document based on passed in id (via route)
+                    collection.findOneAndDelete({ _id: req.params.id })
+                        .then(doc => res.send(204))
+                        .catch(err => res.send(500, err))
 
-        // remove one document based on passed in id (via route)
-        collection.findOneAndDelete({ _id: req.params.id })
-            .then(doc => res.send(204))
-            .catch(err => res.send(500, err))
-
-        next()
+                    next()
+                }else{
+                    res.send(403, "API key does not match email.")
+                    next()
+                }
+            })
+        }else{
+            res.send(403, "No API key or email provided to verify admin status.")
+            next()
+        }
 
     })
 
