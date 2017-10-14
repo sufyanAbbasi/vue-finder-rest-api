@@ -1,7 +1,11 @@
 {
   "name": "vue-finder-rest-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API for VUEFinder App",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sufyanAbbasi/vue-finder-rest-api.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,6 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "mongodb": "^2.2.31",
+    "passport-localapikey": "0.0.3",
+    "passport-restify": "^1.0.1",
     "restify": "^6.0.1",
     "validator": "^9.0.0"
   }
