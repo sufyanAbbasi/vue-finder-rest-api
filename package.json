@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^4.0.0",
     "fs": "0.0.1-security",
     "mongodb": "^2.2.31",

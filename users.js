@@ -1,5 +1,5 @@
 'use strict'
-const bcrypt = require('bcrypt'),
+const bcrypt = require('bcryptjs'),
 	  randomWords = require('random-words'),
 	  fs = require('fs'),
 	  users = require("./secret"),
