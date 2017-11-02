@@ -17,7 +17,7 @@ module.exports = function(ctx) {
      * Create
      */
     server.post('/points', (req, res, next) => {
-        if(validation.validatePoint(req.body)){
+        if(req.body && validation.validatePoint(req.body)){
             // extract data from body and add timestamps
             const data = Object.assign({}, req.body, {
                 created: new Date(),
@@ -54,7 +54,7 @@ module.exports = function(ctx) {
     })
 
     server.post('/events', (req, res, next) => {
-        if(validation.validateEvent(req.body)){
+        if(req.body && validation.validateEvent(req.body)){
             // extract data from body and add timestamps
             const data = Object.assign({}, req.body, {
                 created: new Date(),
