@@ -1,3 +1,5 @@
+'use strict'
+
 const validator = require("validator")
 
 const pointTemplate = {
@@ -13,6 +15,45 @@ const pointTemplate = {
         "description" : {
                             validate: (val) => typeof val === 'string',
                             error: "- description is not a string"
+                        },
+        "latitude"    : {
+                            validate: (val) => typeof val === 'number',
+                            error: "- latitude is not a number"
+                        },
+        "longitude"   : {
+                            validate: (val) => typeof val === 'number',
+                            error: "- longitude is not a number"
+                        }
+    },
+    optional : {
+        "img" : {
+            validate: (val) => typeof val === 'string' && validator.isURL(val),
+            error: "- img is not a proper url"
+        }
+    }
+}
+
+const eventTemplate = {
+    required : {
+        "category"    : {
+                            validate: (val) => typeof val === 'string' && validator.isUppercase(val), 
+                            error: "- category is not an uppercase string"
+                        },
+        "email"       : {
+                            validate: (val) => typeof val === 'string' && validator.isEmail(val), 
+                            error: "- email is not a proper email"
+                        },
+        "description" : {
+                            validate: (val) => typeof val === 'string',
+                            error: "- description is not a string"
+                        },
+        "start"       : {
+                            validate: (val) => typeof val === 'string' && validator.isISO8601(val),
+                            error: "- start date is not a ISO8601 formatted date"
+                        },
+        "end"         : {
+                            validate: (val) => typeof val === 'string' && validator.isISO8601(val),
+                            error: "- end date is not a ISO8601 formatted date"
                         },
         "latitude"    : {
                             validate: (val) => typeof val === 'number',
@@ -61,6 +102,9 @@ let whyInvalidData = function(body, template){
     let optional = template.optional
     let error = ["Required: " + Object.keys(required).join(", "), 
                  "Optional: " + Object.keys(optional).join(", ")]
+    if(!body){
+        return "empty body"
+    }
     // check that the length of the body is within the required and optional lengths
     let valid = Object.keys(body).length >= Object.keys(required).length && 
                 Object.keys(body).length <= Object.keys(required).length + Object.keys(optional).length;
@@ -97,4 +141,6 @@ let whyInvalidData = function(body, template){
 }
 
 module.exports.validatePoint = (body) => validateData(body, pointTemplate)
-module.exports.whyInvalidPoint = (body) => whyInvalidData(body, pointTemplate) 
+module.exports.validateEvent = (body) => validateData(body, eventTemplate)
+module.exports.whyInvalidPoint = (body) => whyInvalidData(body, pointTemplate)
+module.exports.whyInvalidEvent = (body) => whyInvalidData(body, eventTemplate) 
