@@ -102,6 +102,9 @@ let whyInvalidData = function(body, template){
     let optional = template.optional
     let error = ["Required: " + Object.keys(required).join(", "), 
                  "Optional: " + Object.keys(optional).join(", ")]
+    if(!body){
+        return "empty body"
+    }
     // check that the length of the body is within the required and optional lengths
     let valid = Object.keys(body).length >= Object.keys(required).length && 
                 Object.keys(body).length <= Object.keys(required).length + Object.keys(optional).length;
