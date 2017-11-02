@@ -139,4 +139,5 @@ let whyInvalidData = function(body, template){
 
 module.exports.validatePoint = (body) => validateData(body, pointTemplate)
 module.exports.validateEvent = (body) => validateData(body, eventTemplate)
-module.exports.whyInvalidPoint = (body) => whyInvalidData(body, pointTemplate) 
+module.exports.whyInvalidPoint = (body) => whyInvalidData(body, pointTemplate)
+module.exports.whyInvalidEvent = (body) => whyInvalidData(body, eventTemplate) 

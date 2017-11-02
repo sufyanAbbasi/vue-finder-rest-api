@@ -86,7 +86,7 @@ module.exports = function(ctx) {
                 next()
             }
         }else{
-            res.send(400, validation.whyInvalidPoint(req.body))
+            res.send(400, validation.whyInvalidEvent(req.body))
         }
     })
 
