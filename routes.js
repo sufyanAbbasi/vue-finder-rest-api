@@ -38,14 +38,10 @@ module.exports = function(ctx) {
      * Read
      */
 
-    server.get('/', (req, res, next) => {
-        var body = '<html><body><h3>This is the VUEFinder REST server.</h3><a href="https://github.com/sufyanAbbasi/vue-finder-rest-api" target="_blank">Github</a></body></html>';
-        res.writeHead(200, {
-          'Content-Length': Buffer.byteLength(body),
-          'Content-Type': 'text/html'
-        });
-        res.write(body);
-        res.end();
+    server.get('/', res.serveStatic({
+            'directory': 'public',
+            'default': 'main.html'
+         })
     })
     // returns all the points 
     server.get('/points', (req, res, next) => {
