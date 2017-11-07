@@ -1,6 +1,6 @@
 'use strict'
 
-const restify = require('restify'),
+const restifyPlugins = require('restify').plugins,
       validation = require("./validate")
 
 
@@ -40,7 +40,7 @@ module.exports = function(ctx) {
      * Read
      */
 
-    server.get('/', restify.serveStatic({
+    server.get('/', restifyPlugins.serveStatic({
             'directory': 'public',
             'default': 'main.html'
          }))
