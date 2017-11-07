@@ -40,10 +40,10 @@ module.exports = function(ctx) {
      * Read
      */
 
-    server.get('/', restifyPlugins.serveStatic({
-            'directory': 'public',
-            'default': 'main.html'
-         }))
+    // server.get('/', restifyPlugins.serveStatic({
+    //         'directory': 'public',
+    //         'default': 'main.html'
+    //      }))
     // returns all the points 
     server.get('/points', (req, res, next) => {
         
