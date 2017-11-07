@@ -6,8 +6,7 @@
 const config  = require('./config'),
       restify = require('restify'),
       restifyPlugins = require('restify').plugins,
-      mongodb = require('mongodb').MongoClient,
-      ecstatic = require('ecstatic')
+      mongodb = require('mongodb').MongoClient
 
 /**
  * Initialize Server
@@ -24,7 +23,6 @@ server.use(restifyPlugins.jsonBodyParser({ mapParams: true }))
 server.use(restifyPlugins.acceptParser(server.acceptable))
 server.use(restifyPlugins.queryParser({ mapParams: true }))
 server.use(restifyPlugins.fullResponse())
-server.use(ecstatic({ root: "public" + '/' }));
 
 /**
  * Lift Server, Connect to DB & Require Route File
