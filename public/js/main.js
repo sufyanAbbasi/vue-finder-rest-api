@@ -1,33 +1,4 @@
-var map;
-var infowindow = makeInfoWindow('');
-
-var latlngs = [
-	{lat: 41.6860471, lng: -73.89734220000003},
-	{lat: 41.68394308, lng: -73.89830491},
-	{lat: 41.68278345, lng: -73.89750748},
-	{lat: 41.68469556, lng: -73.89432027},
-	{lat: 41.6828317, lng: -73.8983063},
-	{lat: 41.68520255, lng: -73.89806582},
-	{lat: 41.68357412, lng: -73.89439702},
-	{lat: 41.68929674, lng: -73.89536947},
-	{lat: 41.68293966, lng: -73.89967249},
-	{lat: 41.68434201, lng: -73.89690249},
-];
-
-var infos = [
-	{"title": "Sanders 3rd Floor", "description": "The third floor of Sanders", "status": 2},
-	{"title": "Sanders 2nd Floor", "description": "The second floor of Sanders", "status": 1},
-	{"title": "Sanders First Floor", "description": "The first floor of Sanders", "status": 0},
-	{"title": "New England First Floor", "description": "The first floor of NE", "status": 1},
-	{"title": "New England Second Floor", "description": "The second floor of Sanders", "status": 1},
-	{"title": "New England Basement", "description": "The basement of New England", "status": 0},
-	{"title": "Main First Floor", "description": "The first floor of Main", "status": 1},
-	{"title": "Main Second Floor 1", "description": "The second floor of Main", "status": 1},
-	{"title": "Main Second Floor 2", "description": "The second floor of Main", "status": 2},
-	{"title": "Main Third Floor 1", "description": "The third floor of Main", "status": 0},
-];
-
-var mapMarkers = [];
+var ROOT = "http://ec2-54-146-151-29.compute-1.amazonaws.com/"
 
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -89,119 +60,52 @@ function load(url) {
 	}); 
 	}
 
-
-function initMap(){
-	// initialize the map
-    var mapOptions = {
-      zoom: 16,
-      center: new google.maps.LatLng(41.68623752785667,-73.89570789337155),
-      keyboardShortcuts: false,
-      zoomControl: true,
-      zoomControlOptions: {
-          position: google.maps.ControlPosition.RIGHT_BOTTOM
-      },
-      scaleControl: true,
-      scaleControlOptions: {
-          position: google.maps.ControlPosition.RIGHT_BOTTOM
-      },
-      fullscreenControl: false,
-      streetViewControl: true,
-      mapTypeControl: false,
-      styles: [{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},
-      			{"saturation":43.400000000000006},{"lightness":37.599999999999994},
-      			{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},
-      			{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},
-      			{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},
-      			{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},
-      			{"featureType":"road.local","stylers":[{"hue":"#FF0300"},
-      			{"saturation":-100},{"lightness":52},{"gamma":1}]},
-      			{"featureType":"water","stylers":[{"hue":"#0078FF"},
-      			{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},
-      			{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},
-      			{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},
-      			{"gamma":1}]}]
-    };
-    var mapDiv = document.getElementById('map-div');
-    return new google.maps.Map(mapDiv, mapOptions);
+function processHash(){
+	var hash = window.location.hash.slice(1);
+	$('[id*="-page"],[class*="-page"]').hide();
+	if($('#'+hash+'-page').length){
+      $('#'+hash+'-page').show();
+    }else{
+      window.location.hash = "points";
+    }
 }
 
-function makeMarker(latlng, map, color){
-	var pinColor = color;
-    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
-        new google.maps.Size(21, 34),
-        new google.maps.Point(0,0),
-        new google.maps.Point(10, 34));
-    var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
-        new google.maps.Size(40, 37),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(12, 35));
-	return new google.maps.Marker({
-          position: latlng,
-          map: map,
-          icon: pinImage,
-          shadow: pinShadow
-        });
-}
-
-function makeInfoWindow(contentString){
-	return new google.maps.InfoWindow({
-	    content: contentString
-	  });
-}
-
-function getStatusString(status){
-	return (!status) ? "Pending" : (status == 1) ? "Approved" : "Denied";
-}
-
-function getStatusColor(status){
-	return (!status) ? "888888" : (status == 1) ? "00FF00" : "FF0000";
-}
+window.onhashchange = processHash;
 
 function init(){
-	map = initMap();
-	for (var i = latlngs.length - 1; i >= 0; i--) {
-		(function(){
-			var inf = infos[i];
-			var marker = makeMarker(latlngs[i], map, getStatusColor(inf['status']));
-			var info = [
-					inf['title'],
-					'<br><br>',
-					inf['description'],
-					'<br><br>',
-					'Status: ', 
-					getStatusString(inf['status'])].join('');
-
-			marker.addListener('click', function() {
-				map.panTo(marker.getPosition());
-				infowindow.setContent(info);
-				infowindow.open(map, marker);
-			});
-
-			mapMarkers[i] = {
-				marker: marker, 
-				info: info
-			};
-
-			$('#map-points ul').append(
-				['<li class="map-point" data-index="'+i+'">',
-				'<p>'+infos[i]['title']+'</p>',
-				'<div class="more-info"></div>',
-				'</li>'].join(''));
-		})();
+	for(category in categories){
+		$('[name=category]').append([
+			'<option value="',category,'">',
+			categories[category].description,
+			'</option>'].join(''));	
 	}
-	$('.tool-window').click(function(e){
-		$(this).toggleClass('open').toggleClass('close');
-	}).children().click(function(e) {
-		return false;
+	
+	map = initMap();
+	initPoints().then(function(resolve){
+		console.log(resolve);
+		drawPoints();
+	}).catch(function(err){
+		console.log(err);
 	});
 
-	$('.more-info').click(function(e){
-		var i = $(this).parent().data('index');
-		$('#map-points').removeClass('open').addClass('close');
-		map.panTo(mapMarkers[i].marker.getPosition());
-		infowindow.setContent(mapMarkers[i].info);
-		infowindow.open(map, mapMarkers[i].marker);
+	initEvents().then(function(resolve){
+		console.log(resolve);
+		showPosts();
+	}).catch(function(err){
+		console.log(err);
 	});
+
+	$('[name=category]').change(function(){
+		drawPoints();
+	});
+
+	processHash();
+
+	// $('#map-points ul').append(
+	// 			['<li class="map-point" data-index="'+i+'">',
+	// 			'<p>'+infos[i]['title']+'</p>',
+	// 			'<div class="more-info"></div>',
+	// 			'</li>'].join(''));
 }
 
 $(init);

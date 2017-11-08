@@ -18,37 +18,107 @@
     <body>
         <div class="header-container">
             <header class="wrapper clearfix">
-                <h1 class="title">VUE Points Admin</h1>
+                <h1 class="title">VUE Finder</h1>
                 <nav>
                     <ul>
-                        <li><a href="#map">Map</a></li>
+                        <li><a href="#points">Map Points</a></li>
                         <li><a href="#events">Events</a></li>
-                        <li><a href="#post">Submit Event</a></li>
+                        <li><a href="#post">Post Your Own</a></li>
                     </ul>
                 </nav>
             </header>
         </div>
-        <div id="map" class="main-container">
+        <div id="points-page" class="main-container">
             <div id="maps-container" class="main clearfix">
                 <div id="map-div"></div>
-                <div id="filter-UI" class="top left tool-window">
-                <form id="category_filter">
-                    <label>Filter Map Points</label><br>
-                    <select>
-                        <option value="buildings">Buildings</option>
-                        <option value="restrooms">Restrooms</option>
-                        <option value="emergency_lights">Emergency Blue Lights</option>
-                    </select>
+                <div id="filter-UI" class="top left tool-window open">
+                    <form id="category_filter">
+                        <fieldset>
+                        <legend class="hidden">Filter Map Points</legend>
+                            <select name="category"></select>
+                        </fieldset>
+                    </form>
+                </div>
+                <!-- <div id="map-points" class="top right tool-window close">
+                    <ul></ul>
+                </div> -->
+            </div> <!-- #main -->
+        </div> <!-- main-container -->
+        <div id="events-page" class="main-container">
+            <div class="resource-container">
+                <div id="posts"></div>
+            </div>
+        </div>
+        <div id="post-page" class="main-container">
+            <div class="resource-container">
+                <form id="report-form">
+                  <div class="report-form-section">
+                    <p style="color:red; margin: 0">required: *</p>
+                    <label>
+                      <strong class="emphasis required">Submit Map Point or Event?</strong>
+                    </label>
+                    <label class="no-highlight" style="display: inline-block; width: 40%; margin: 5px 2.5%">
+                      <input type="radio" name="type" value="map-point" checked>
+                      <div class="tag-label" style="width: 100%">Map Point</div>
+                    </label>
+                    <label class="no-highlight" style="display: inline-block; width: 40%; margin: 5px 2.5%">
+                      <input type="radio" name="type" value="event">
+                      <div class="tag-label" style="width: 100%">Event</div>
+                    </label>
+                    <label>
+                      <strong class="emphasis">Indicate the category of the map point you are reporting (<i>check all that apply</i>):</strong>
+                    </label>
+                    <label class="no-highlight" style="display: inline-block;">
+                      <input type="radio" name="category" value="bathroom" checked>
+                      <div class="tag-label">Bathroom</div>
+                    </label>
+                    <label class="no-highlight" style="display: inline-block;">
+                      <input type="radio" name="category" value="emergency_light">
+                      <div class="tag-label">Emergency Light</div>
+                    </label>
+                    <label class="no-highlight" style="display: inline-block;">
+                      <input type="radio" name="category" value="Building">
+                      <div class="tag-label">Building</div>
+                    </label>
+                    <br>
+
+                    <label class='location-label'>
+                      <strong class="emphasis required">Where is this map point/event located</strong><br><input class="required" type="text" id="address"  name="location" placeholder="Main Building MPR" emphasis required/>
+                    </label>
+
+                    <label class='textarea-label'>
+                      <strong class="emphasis required">Describe the map point or event</strong>
+                      <textarea name="description" placeholder=""></textarea>
+                    </label>
+
+                    <label class='textarea-label photo-upload'>
+                      <strong class="emphasis required">When does this event start?</strong>
+                      <input type="datetime-local" id="event-start" name="event-start">
+                    </label>
+
+                    <label class='textarea-label photo-upload'>
+                      <strong class="emphasis required">When does this event end?</strong>
+                      <input type="datetime-local" id="event-start" name="event-start">
+                    </label>
+
+                    <label class='textarea-label'>
+                      <strong class="emphasis required">What is your email?</strong>
+                      <input type="email" id="email" name="email">
+                    </label>
+                  </div>
+                  <input id="report-submit" class="report-button no-highlight" type="submit" >
                 </form>
             </div>
-                <div id="map-points" class="top right tool-window close">
-                    <ul></ul>
-                </div>
-            </div> <!-- #main -->
+        </div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJFxGhzdZzHsMlBZRBO-MN9VZ3EYfiuAU"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
+        
+        <script src='js/dateFormat.js' type='text/javascript'></script>
+        <script src="js/globalFunctions.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/map.js"></script>
+        <script src="js/points.js"></script>
+        <script src="js/events.js"></script>
     </body>
 </html>
